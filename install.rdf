@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+	<Description about="urn:mozilla:install-manifest">
+		<em:id>{c45ac2c6-14d5-11df-844d-001f16155cce}</em:id>
+		<em:type>2</em:type>
+		<em:name>Cert Alart</em:name>
+		<em:description>ROOT CA blacklist for CNNIC.</em:description>
+		<em:version>0.0.1</em:version>
+		<em:creator>Rex Tsai</em:creator>
+		<!-- 
+		<em:contributor>benlau, lbrabbit</em:contributor>
+		-->
+		<em:iconURL>chrome://certalert/skin/icon.png</em:iconURL>
+		<!--
+		<em:optionsURL>chrome://certalert/content/prefs.xul</em:optionsURL>
+		<em:translator>... (... Locale)</em:translator>
+	       -->
+		<em:targetApplication>
+			<Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- Firefox -->
+				<em:minVersion>3.5</em:minVersion>
+				<em:maxVersion>3.6</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+	</Description>
+</RDF>
