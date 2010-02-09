@@ -5,11 +5,9 @@
 		<em:type>2</em:type>
 		<em:name>Cert Alart</em:name>
 		<em:description>ROOT CA blacklist for CNNIC.</em:description>
-		<em:version>0.0.1</em:version>
-		<em:creator>Rex Tsai</em:creator>
-		<!-- 
-		<em:contributor>benlau, lbrabbit</em:contributor>
-		-->
+		<em:version>0.0.2</em:version>
+		<em:creator>Rex Tsai</em:creator>		
+		<em:contributor>小兔黑黑 (lbrabbit)</em:contributor>
 		<em:iconURL>chrome://certalert/skin/icon.png</em:iconURL>
 		<!--
 		<em:optionsURL>chrome://certalert/content/prefs.xul</em:optionsURL>

@@ -33,6 +33,12 @@ if (typeof(Ci) == "undefined")
 
 var CertAlert = {
 
+  log: function (s) {
+    var _consoleService = Cc["@mozilla.org/consoleservice;1"].getService(Ci.nsIConsoleService);
+    _consoleService.logStringMessage(s);
+  },
+    
+    
   onLoad: function(e) {
     var content = document.getElementById("content");
     if(content) {
@@ -49,7 +55,7 @@ var CertAlert = {
   
   onSecurePageLoad: function(doc) {
   
-	const promptStrings = document.getElementById('certalert-stringbundle-prompt');
+    const promptStrings = document.getElementById('certalert-stringbundle-prompt');
 
     var browser = gBrowser.getBrowserForDocument(doc);
     var ui = browser.securityUI.QueryInterface(Ci.nsISSLStatusProvider);
@@ -77,8 +83,13 @@ var CertAlert = {
   },
   
   checkFingerPrint: function(cert) {
+    this.log(cert.issuerName + ' - ' + cert.sha1Fingerprint);
+    
+    
     // FIXME: shoud be a database to handle the keys.
-    if(cert.sha1Fingerprint == '68:56:BB:1A:6C:4F:76:DA:CA:36:21:87:CC:2C:CD:48:4E:DD:C2:5D') {
+    if(cert.sha1Fingerprint == '68:56:BB:1A:6C:4F:76:DA:CA:36:21:87:CC:2C:CD:48:4E:DD:C2:5D' ||
+        cert.sha1Fingerprin == 'AA:CA:FB:20:21:98:0A:D5:7E:55:32:1E:DC:90:41:A2:F1:B3:16:54' ||
+        cert.sha1Fingerprin == '8B:AF:4C:9B:1D:F0:2A:92:F7:DA:12:8E:B9:1B:AC:F4:98:60:4B:6F') {
         return -1;
     }
     if(cert.issuer.sha1Fingerprint !== cert.sha1Fingerprint) {
