@@ -1,4 +1,5 @@
-This extension is a quick hack for blocking CNNIC's SSL certification. 
+This extension is a quick hack for alert the user when they visit 
+a web site uses CNNIC's SSL certification. 
 
 For more information please visit 
 http://people.debian.org.tw/~chihchun/2010/02/02/remove-cnnic-cert-on-linux/
