@@ -1,8 +1,8 @@
-This extension is a quick hack for alert the user when they visit 
-a web site uses CNNIC's SSL certification. 
+This extension is a quick hack for alerting user when they visit
+a web site uses harmful certificates. 
 
 For more information please visit 
-http://people.debian.org.tw/~chihchun/2010/02/02/remove-cnnic-cert-on-linux/
+http://bit.ly/9vYAlF
 https://bugzilla.mozilla.org/show_bug.cgi?id=542689
 
 The icon of extension is lock-broken.png from epiphany-browser.
