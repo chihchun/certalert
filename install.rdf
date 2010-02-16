@@ -8,6 +8,7 @@
 		<em:version>0.0.3</em:version>
 		<em:creator>Rex Tsai</em:creator>		
 		<em:contributor>小兔黑黑 (lbrabbit)</em:contributor>
+		<em:contributor>littlebtc</em:contributor>
 		<em:iconURL>chrome://certalert/skin/icon.png</em:iconURL>
 		<!--
 		<em:optionsURL>chrome://certalert/content/prefs.xul</em:optionsURL>
