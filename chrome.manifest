@@ -1,6 +1,6 @@
 content certalert chrome/content/
 skin certalert classic/1.0 chrome/skin/
-overlay chrome://browser/content/browser.xul chrome://certalert/content/certalert.xul
+# overlay chrome://browser/content/browser.xul chrome://certalert/content/certalert.xul
 
 locale certalert en-US chrome/locale/en-US/
 locale certalert zh-TW chrome/locale/zh-TW/

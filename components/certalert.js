@@ -25,38 +25,53 @@
  *                              
  * ***** END LICENSE BLOCK ***** */
 
-(function() {
 if (typeof(Cc) == "undefined")
     var Cc = Components.classes;
 if (typeof(Ci) == "undefined")
     var Ci = Components.interfaces;
-  
-var CertAlert = {
+if (typeof(Cu) == "undefined")
+    var Cu = Components.utils;
+    
+Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
+var CertAlert = {
+  classDescription: "CertAlert XPCOM Component",
+  classID:          Components.ID("{b34f4fbe-1da5-11df-8c91-001f16155cce}"),
+  contractID:       "@github.com/certalert;1",
+  _xpcom_categories: [{ category: "app-startup", service: true }],
+
+  getHelperForLanguage: function getHelperForLanguage(aLanguage) {
+                            return null;
+                        },
+                        
+  getInterfaces: function getInterfaces(aCount) {
+    var interfaces = [Ci.nsIObserver, Ci.nsIClassInfo, Ci.nsSupports, Ci.nsISupportsWeakReference];
+    aCount.value = interfaces.length;
+    return interfaces;
+  },
+        
+  QueryInterface: XPCOMUtils.generateQI([Ci.nsIObserver, Ci.nsIClassInfo, Ci.nsSupports, Ci.nsISupportsWeakReference]),
+
+  // nsIObserver
+  observe: function (aSubject, aTopic, aData) {
+    if (aTopic == "app-startup") {
+        // this.log('app-startup');
+        // monitor every response.
+        var observerService = Cc["@mozilla.org/observer-service;1"]
+                                .getService(Ci.nsIObserverService);
+        observerService.addObserver(CertAlert.httpResonseObserver, "http-on-examine-response", false);    
+    }
+  },
+      
   log: function (s) {
     var _consoleService = Cc["@mozilla.org/consoleservice;1"].getService(Ci.nsIConsoleService);
     _consoleService.logStringMessage(s);
-  },
-    
-  onLoad: function(e) {
-    /*
-    // this method will not handle image and javascript.
-    var content = document.getElementById("content");
-    if(content) {
-        content.addEventListener("DOMContentLoaded", this.onPageLoad, true);
-    }
-    */
-    
-    // monitor every response.
-    var observerService = Cc["@mozilla.org/observer-service;1"]
-                                .getService(Ci.nsIObserverService);
-    observerService.addObserver(CertAlert.httpResonseObserver, "http-on-examine-response", false);
-    
   },
   
   httpResonseObserver: {
     observe: function(aSubject, aTopic, aData) 
     {
+        // CertAlert.log('http-on-examine-response');
         if (aTopic == "http-on-examine-response") {
             var httpChannel = aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
             var uri = httpChannel.URI.asciiSpec;
@@ -107,41 +122,6 @@ var CertAlert = {
       }
     }
   },
-    
-  onPageLoad: function(event) {
-    var doc = event.originalTarget;
-    if (doc.location.protocol == "https:") {
-        CertAlert.onSecurePageLoad(doc);
-    }
-  },
-  
-  onSecurePageLoad: function(doc) {
-  
-    const promptStrings = document.getElementById('certalert-stringbundle-prompt');
-
-    var browser = gBrowser.getBrowserForDocument(doc);
-    var ui = browser.securityUI.QueryInterface(Ci.nsISSLStatusProvider);
-    var status = ui.QueryInterface(Ci.nsISSLStatusProvider).SSLStatus;
-    
-    // Not yet accepted SSL    
-    if (!status)
-        return;
-    
-    var cert = status.serverCert;
-    if (!cert)
-        return;
-    if (this.getVerify(cert) !== 'Verified_OK') 
-        return;
-        
-    if(CertAlert.checkFingerPrint(cert) == -1) {
-      this.showNotificationBox (browser, promptStrings.getFormattedString('prompt.unsecure.host', 
-        [(cert.issuerCommonName ? cert.issuerCommonName : cert.issuerOrganization)
-        + ' > ' +cert.commonName ]),
-        promptStrings.getString('prompt.unsecure.more'),
-        promptStrings.getString('prompt.unsecure.ignore'),
-        "http://bit.ly/9vYAlF");        
-    }
-  },
 
   getVerify: function (cert) {  
     switch (cert.verifyForUsage(Ci.nsIX509Cert.CERT_USAGE_SSLServer)) {
@@ -180,7 +160,6 @@ var CertAlert = {
     }
   },
   
-  
   getNotificationBox: function (aWindow) {
     var notifyBox = null;
 
@@ -202,8 +181,8 @@ var CertAlert = {
         var chromeDoc = getChromeWindow(notifyWindow).document.documentElement;
 
         var webnav = notifyWindow
-                                    .QueryInterface(Ci.nsIInterfaceRequestor)
-                                    .getInterface(Ci.nsIWebNavigation);
+                    .QueryInterface(Ci.nsIInterfaceRequestor)
+                    .getInterface(Ci.nsIWebNavigation);
 
         // Check to see if the current window was opened with chrome
         // disabled, and if so use the opener window. But if the window
@@ -218,7 +197,6 @@ var CertAlert = {
     }
  
     var chromeWin = getChromeWindow(notifyWindow).wrappedJSObject;
-
 
     if (chromeWin && chromeWin.getNotificationBox)
         notifyBox = chromeWin.getNotificationBox(notifyWindow);
@@ -255,12 +233,17 @@ var CertAlert = {
     }];
 
     // Only append one notification for one winodw.
-  	if(box.getNotificationWithValue("cert-notify") === null) 
+    if(box.getNotificationWithValue("cert-notify") === null) 
         box.appendNotification(text, "cert-notify", icon, pr, btns);
   }
-  
 }
 
-window.addEventListener("load", function(e) { CertAlert.onLoad(e); }, false);
-// window.addEventListener("unload", function(e) { CertAlert.onUnload(e); }, false);
-})();
+function CertAlertComponent () {}
+CertAlertComponent.prototype = CertAlert;
+
+
+function NSGetModule(compMgr, fileSpec) {
+      // "components" is the array created in the previous section
+      // return XPCOMUtils.generateModule(components);
+      return XPCOMUtils.generateModule([CertAlertComponent]);
+}
