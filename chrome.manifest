@@ -4,4 +4,5 @@ skin certalert classic/1.0 chrome/skin/
 
 locale certalert en-US chrome/locale/en-US/
 locale certalert zh-TW chrome/locale/zh-TW/
+locale certalert zh-HK chrome/locale/zh-TW/
 locale certalert zh-CN chrome/locale/zh-CN/
