@@ -155,7 +155,8 @@ var CertAlert = {
         cert.sha1Fingerprint == '8B:AF:4C:9B:1D:F0:2A:92:F7:DA:12:8E:B9:1B:AC:F4:98:60:4B:6F') {
         return -1;
     }
-    if(cert.issuer.sha1Fingerprint !== cert.sha1Fingerprint) {
+    
+    if(cert.issuer && cert.issuer.sha1Fingerprint !== cert.sha1Fingerprint) {
         return CertAlert.checkFingerPrint(cert.issuer);
     }
   },
