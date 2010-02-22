@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-
-<overlay id="certalert-overlay"
-         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-        <script type="application/x-javascript;version=1.7" src="chrome://certalert/content/certalert.js"/>
-	<stringbundleset id="stringbundleset">
-		<stringbundle id="certalert-stringbundle-prompt" src="chrome://certalert/locale/prompt.properties"/>
-	</stringbundleset>
-</overlay>
