@@ -1,6 +1,9 @@
 content certalert chrome/content/
 skin certalert classic/1.0 chrome/skin/
 # overlay chrome://browser/content/browser.xul chrome://certalert/content/certalert.xul
+component {b34f4fbe-1da5-11df-8c91-001f16155cce} components/certalert.js
+contract @github.com/certalert;1 {b34f4fbe-1da5-11df-8c91-001f16155cce}
+category profile-after-change CertAlertComponent @github.com/certalert;1
 
 locale certalert en-US chrome/locale/en-US/
 locale certalert zh-TW chrome/locale/zh-TW/
